@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #0a0a0a;
+            background: #fafafa;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(250, 250, 250, 0.8);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0a0a0a;
+            letter-spacing: -0.02em;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 3rem;
+        }
+
+        nav a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #0a0a0a;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #0a0a0a;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            color: #0a0a0a;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: #666;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0a0a0a;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: gap 0.3s ease;
+        }
+
+        .cta-link:hover {
+            gap: 1rem;
+        }
+
+        .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .cta-link:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        /* Work Section */
+        .work-section {
+            padding: 8rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 600;
+            margin-bottom: 4rem;
+            letter-spacing: -0.02em;
+            color: #0a0a0a;
+        }
+
+        .work-grid {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .work-item {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #fff;
+            transition: transform 0.4s ease;
+        }
+
+        .work-item:hover {
+            transform: translateY(-8px);
+        }
+
+        .work-image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .work-image::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .work-image::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-45%, -50%);
+            color: white;
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .work-item:hover .work-image::before,
+        .work-item:hover .work-image::after {
+            opacity: 1;
+        }
+
+        .work-info {
+            padding: 2rem;
+        }
+
+        .work-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #0a0a0a;
+            letter-spacing: -0.01em;
+        }
+
+        .work-category {
+            color: #999;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 8rem 4rem;
+            background: #fff;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            font-size: clamp(1.3rem, 2.5vw, 2rem);
+            line-height: 1.6;
+            color: #333;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            margin-bottom: 3rem;
+        }
+
+        .about-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .detail-item h3 {
+            font-size: 0.9rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .detail-item p {
+            font-size: 1.1rem;
+            color: #0a0a0a;
+            font-weight: 400;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            padding: 8rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .skill-item {
+            padding: 2rem 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .skill-name {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #0a0a0a;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-description {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 8rem 4rem;
+            background: #0a0a0a;
+            color: #fff;
+            text-align: center;
+        }
+
+        .contact-section .section-title {
+            color: #fff;
+            margin-bottom: 2rem;
+        }
+
+        .contact-text {
+            font-size: 1.2rem;
+            color: #999;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-email {
+            display: inline-block;
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            transition: opacity 0.3s ease;
+            margin-bottom: 3rem;
+        }
+
+        .contact-email:hover {
+            opacity: 0.7;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .social-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 4rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            background: #0a0a0a;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .hero,
+            .work-section,
+            .about-section,
+            .skills-section,
+            .contact-section {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            .work-grid {
+                gap: 2rem;
+            }
+
+            footer {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Your Name</div>
+        <ul>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Video Editor & Motion Designer</h1>
+            <p>Crafting compelling visual stories through seamless editing, dynamic motion graphics, and attention to detail.</p>
+            <a href="#work" class="cta-link">
+                View Work <span class="arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="work" class="work-section">
+        <h2 class="section-title">Selected Work</h2>
+        <div class="work-grid">
+            <div class="work-item">
+                <div class="work-image"></div>
+                <div class="work-info">
+                    <h3 class="work-title">Brand Campaign</h3>
+                    <p class="work-category">Motion Graphics • After Effects</p>
+                </div>
+            </div>
+            <div class="work-item">
+                <div class="work-image"></div>
+                <div class="work-info">
+                    <h3 class="work-title">Documentary Edit</h3>
+                    <p class="work-category">Video Editing • Premiere Pro</p>
+                </div>
+            </div>
+            <div class="work-item">
+                <div class="work-image"></div>
+                <div class="work-info">
+                    <h3 class="work-title">Social Content Series</h3>
+                    <p class="work-category">Short Form • Color Grading</p>
+                </div>
+            </div>
+            <div class="work-item">
+                <div class="work-image"></div>
+                <div class="work-info">
+                    <h3 class="work-title">Commercial Spot</h3>
+                    <p class="work-category">VFX • Compositing</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="about-content">
+            <h2 class="section-title">About</h2>
+            <p class="about-text">
+                I'm a video editor and motion graphics designer passionate about transforming ideas into captivating visual experiences. With expertise in Adobe Creative Suite and a keen eye for storytelling, I help brands and creators bring their visions to life.
+            </p>
+            <div class="about-details">
+                <div class="detail-item">
+                    <h3>Location</h3>
+                    <p>Rudrapur, India</p>
+                </div>
+                <div class="detail-item">
+                    <h3>Experience</h3>
+                    <p>5+ Years</p>
+                </div>
+                <div class="detail-item">
+                    <h3>Availability</h3>
+                    <p>Open for Work</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+        <h2 class="section-title">Expertise</h2>
+        <div class="skills-list">
+            <div class="skill-item">
+                <div class="skill-name">Video Editing</div>
+                <div class="skill-description">Premiere Pro, Final Cut Pro</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-name">Motion Graphics</div>
+                <div class="skill-description">After Effects, Animation</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-name">Color Grading</div>
+                <div class="skill-description">DaVinci Resolve, LUTs</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-name">Visual Effects</div>
+                <div class="skill-description">Compositing, Tracking</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-name">Sound Design</div>
+                <div class="skill-description">Audio Mixing, Effects</div>
+            </div>
+            <div class="skill-item">
+                <div class="skill-name">Graphic Design</div>
+                <div class="skill-description">Photoshop, Illustrator</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">Let's Work Together</h2>
+        <p class="contact-text">Have a project in mind? I'd love to hear about it and discuss how we can collaborate.</p>
+        <a href="mailto:your.email@example.com" class="contact-email">your.email@example.com</a>
+        <div class="social-links">
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">YouTube</a>
+            <a href="#">Behance</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Your Name. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll handling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(250, 250, 250, 0.95)';
+            } else {
+                nav.style.background = 'rgba(250, 250, 250, 0.8)';
+            }
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe work items
+        document.querySelectorAll('.work-item').forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = `all 0.6s ease ${index * 0.1}s`;
+            observer.observe(item);
+        });
+    </script>
+</body>
+</html>
